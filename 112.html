@@ -1,0 +1,212 @@
+
+<html lang="th">
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรงเรียนกู่ทองพิทยาคม | บันทึกคะแนนพฤติกรรม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden-section {
+            display: none;
+        }
+        .main-bg {
+            background-color: #FF7F00; /* Saturated Orange */
+        }
+        .header-footer-bg {
+            background-color: #1A237E; /* Dark Blue */
+        }
+        .primary-orange {
+            background-color: #FF5722;
+        }
+        .primary-blue {
+            background-color: #2196F3;
+        }
+        .text-primary-orange {
+            color: #FF5722;
+        }
+        .text-primary-blue {
+            color: #2196F3;
+        }
+        .text-header-footer {
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="main-bg font-sans leading-normal tracking-normal text-white">
+
+    <header class="header-footer-bg shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="#" class="text-xl font-bold text-header-footer">โรงเรียนกู่ทองพิทยาคม</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#home" class="text-white hover:text-primary-blue transition duration-300" onclick="showSection('home')">หน้าหลัก</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        
+        <section id="home" class="mb-8">
+            <h1 class="text-4xl font-extrabold text-center text-primary-blue mb-6">บันทึกคะแนนพฤติกรรมนักเรียน</h1>
+            <p class="text-lg text-center max-w-2xl mx-auto mb-8">
+                กรุณาเลือกชื่อนักเรียนเพื่อบันทึกและดูข้อมูลพฤติกรรม
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                </div>
+        </section>
+
+        <section id="detail" class="hidden-section mb-8">
+            <h1 id="student-name" class="text-4xl font-extrabold text-center text-primary-blue mb-6"></h1>
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-2xl mx-auto">
+                <div class="mb-4 text-center">
+                    <h2 class="text-2xl font-semibold text-primary-orange mb-2">คะแนนพฤติกรรมสะสม: <span id="student-score" class="text-primary-blue font-bold"></span></h2>
+                </div>
+                <div class="mb-4">
+                    <h2 class="text-2xl font-semibold text-primary-orange mb-2">ประวัติพฤติกรรม</h2>
+                    <ul id="behavior-list" class="list-disc list-inside text-lg text-gray-700">
+                        </ul>
+                </div>
+                <div class="mt-8">
+                    <h2 class="text-2xl font-semibold text-primary-orange mb-2">บันทึกพฤติกรรมเพิ่มเติม</h2>
+                    <textarea id="behavior-input" class="w-full h-32 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-blue text-gray-700" placeholder="ระบุพฤติกรรมและคะแนน (+1, -1) เช่น 'มาสาย -1' หรือ 'ช่วยงานครู +1'"></textarea>
+                    <button onclick="saveBehavior()" class="mt-4 primary-orange text-white py-2 px-6 rounded-xl hover:bg-orange-600 transition duration-300">
+                        บันทึก
+                    </button>
+                </div>
+                <div class="mt-8 text-center">
+                    <button onclick="showSection('home')" class="text-gray-600 hover:text-primary-blue transition duration-300">
+                        ← กลับสู่หน้าหลัก
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="header-footer-bg text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>© 2025 โรงเรียนกู่ทองพิทยาคม. สงวนลิขสิทธิ์</p>
+        </div>
+    </footer>
+
+    <script>
+        let students = [
+            { id: 1, name: "นายจักรพรรดิ์ ธนะกลม", initialBehaviors: ["ความประพฤติดีเยี่ยม", "ช่วยเหลือครูและเพื่อน"], score: 100 },
+            { id: 2, name: "นายภาสกร ชาติวงษ์", initialBehaviors: ["เข้าร่วมกิจกรรมของโรงเรียนสม่ำเสมอ"], score: 100 },
+            { id: 3, name: "นายอติชาติ สีดาอุบล", initialBehaviors: ["มีความรับผิดชอบในการทำงานที่ได้รับมอบหมาย"], score: 100 },
+            { id: 4, name: "นางสาวณัฐธิดา เหล่าจันอัน", initialBehaviors: ["มีภาวะผู้นำ", "เป็นที่ปรึกษาให้เพื่อนได้"], score: 100 },
+            { id: 5, name: "นางสาวปัทมาพร เหล่าอัน", initialBehaviors: ["ส่งงานตรงเวลา", "ตั้งใจเรียน"], score: 100 },
+            { id: 6, name: "นางสาวปรายฟ้า สีหาพุด", initialBehaviors: ["เป็นตัวแทนโรงเรียนในการแข่งขันทางวิชาการ"], score: 100 },
+            { id: 7, name: "นางสาวพุทธิดา จ่าหนองหว้า", initialBehaviors: ["มีความคิดสร้างสรรค์", "ชอบทำโครงงาน"], score: 100 },
+            { id: 8, name: "นางสาววราภรณ์ วรจักร์", initialBehaviors: ["มีน้ำใจ", "มักช่วยเพื่อนเวลาที่เพื่อนมีปัญหา"], score: 100 },
+            { id: 9, name: "นางสาววริศรา นามวงษ์", initialBehaviors: ["ทำงานกลุ่มได้ดี", "มีทัศนคติที่ดี"], score: 100 },
+            { id: 10, name: "นางสาววัชราภรณ์ วรจักร์", initialBehaviors: ["มีระเบียบวินัย", "มาโรงเรียนแต่เช้าทุกวัน"], score: 100 },
+            { id: 11, name: "นางสาวอัญชัน ชัยสาร", initialBehaviors: ["มักเป็นอาสาสมัครเข้าร่วมกิจกรรมต่างๆ"], score: 100 },
+            { id: 12, name: "นางสาวสุภาภัทร โตทรายมูล", initialBehaviors: ["มีความกระตือรือร้นในการเรียนรู้สิ่งใหม่ๆ"], score: 100 },
+            { id: 13, name: "นางสาวบุญยวีร์ ผางนาง", initialBehaviors: ["มีมนุษยสัมพันธ์ดี", "เข้ากับเพื่อนได้ทุกคน"], score: 100 },
+            { id: 14, name: "นายจักรพล กาลพันธ์", initialBehaviors: ["มีความคิดริเริ่มสร้างสรรค์", "มักเสนอไอเดียใหม่ๆ"], score: 100 },
+            { id: 15, name: "นายชาญชัย อินทะวงษ์", initialBehaviors: ["เป็นผู้ฟังที่ดี", "รับฟังความคิดเห็นของผู้อื่น"], score: 100 },
+            { id: 16, name: "นางสาวนวลจันทร์ หงษ์ทัพ", initialBehaviors: ["มีความขยันหมั่นเพียร", "ทบทวนบทเรียนอย่างสม่ำเสมอ"], score: 100 }
+        ];
+
+        let currentStudent = null;
+
+        function saveStudentsData() {
+            localStorage.setItem('studentsData', JSON.stringify(students));
+        }
+
+        function loadStudentsData() {
+            const data = localStorage.getItem('studentsData');
+            if (data) {
+                return JSON.parse(data);
+            }
+            return null;
+        }
+
+        function renderStudentList() {
+            const container = document.querySelector('#home .grid');
+            container.innerHTML = '';
+            students.forEach(student => {
+                const card = `
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-2">${student.id}. ${student.name}</h3>
+                        <p class="text-sm text-gray-500 mb-2">คะแนน: ${student.score}</p>
+                        <button onclick="showDetail(${student.id})" class="w-full primary-blue text-white py-2 rounded-xl hover:bg-blue-600 transition duration-300">
+                            ดู/บันทึกพฤติกรรม
+                        </button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+        
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                section.classList.add('hidden-section');
+            });
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.remove('hidden-section');
+            }
+        }
+        
+        function showDetail(studentId) {
+            currentStudent = students.find(s => s.id === studentId);
+            if (currentStudent) {
+                document.getElementById('student-name').textContent = currentStudent.name;
+                document.getElementById('student-score').textContent = currentStudent.score;
+                
+                const behaviorList = document.getElementById('behavior-list');
+                behaviorList.innerHTML = '';
+                currentStudent.initialBehaviors.forEach(behavior => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = behavior;
+                    behaviorList.appendChild(listItem);
+                });
+                
+                showSection('detail');
+            }
+        }
+
+        function saveBehavior() {
+            const input = document.getElementById('behavior-input').value.trim();
+            if (input === "") {
+                alert("กรุณาป้อนข้อมูลพฤติกรรมก่อนบันทึก");
+                return;
+            }
+
+            const parts = input.split(/([+-]\d+)$/);
+            const behaviorDescription = parts[0].trim();
+            const scoreChange = parts[1] ? parseInt(parts[1]) : 0;
+            
+            if (currentStudent) {
+                currentStudent.score += scoreChange;
+                document.getElementById('student-score').textContent = currentStudent.score;
+
+                currentStudent.initialBehaviors.push(behaviorDescription + (scoreChange !== 0 ? ` (${scoreChange > 0 ? '+' : ''}${scoreChange})` : ''));
+                const behaviorList = document.getElementById('behavior-list');
+                const listItem = document.createElement('li');
+                listItem.textContent = behaviorDescription + (scoreChange !== 0 ? ` (${scoreChange > 0 ? '+' : ''}${scoreChange})` : '');
+                behaviorList.appendChild(listItem);
+                
+                document.getElementById('behavior-input').value = '';
+                alert("บันทึกข้อมูลพฤติกรรมเรียบร้อยแล้ว!");
+
+                saveStudentsData();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedStudents = loadStudentsData();
+            if (savedStudents) {
+                students = savedStudents;
+            }
+            renderStudentList();
+            showSection('home');
+        });
+    </script>
+
+</body>
+</html>
